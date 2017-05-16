@@ -112,9 +112,11 @@ EOS
       action :nothing
     end
     lib_installer.run_action(:run)
-
+    
     spec_installer = execute 'install pg spec' do
-      command "#{gem_exec} spec ./cache/#{gem_name}.gem --ruby > ./specifications/#{gem_name}.gemspec"
+      ruby_dir = File.expand_path('..', File.dirname(RbConfig.ruby))
+      gems_dir = "#{ruby_dir}/lib/ruby/gems/2.3.0"
+      command "#{gem_exec} spec #{gems_dir}/cache/#{gem_name}.gem --ruby > #{gems_dir}/specifications/#{gem_name}.gemspec"
       cwd File.join(gem_dir, '..', '..')
       action :nothing
     end
